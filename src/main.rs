@@ -1,7 +1,6 @@
 use std::io;
 use std::io::prelude::*;
 extern crate regex;
-
 use regex::Regex;
 
 fn main() {
@@ -10,10 +9,7 @@ fn main() {
     let mut line = String::new();
     let mut table_name = String::new();
     let mut fields = String::new();
-    let re = match Regex::new(r"COPY (\w+) \(([\w, ]+)\) FROM stdin;") {
-        Ok(re) => re,
-        Err(err) => panic!("{}", err),
-    };
+    let re = Regex::new(r"^COPY (\w+) \(([\w, ]+)\) FROM stdin;").unwrap();
     let mut insert_mode = false;
     while stdin.read_line(&mut line).unwrap() > 0 {
         if insert_mode {
@@ -21,7 +17,21 @@ fn main() {
                 insert_mode = false;
             }
             else {
-                print!("{} {}", table_name, fields);
+                let mut values = String::new();
+                line.pop();
+                for s in line.split("\t") {
+                    if s == "\\N" {
+                        values += "NULL, ";
+                    } else {
+                        values += "'";
+                        values += s;
+                        values += "', ";
+                    }
+                }
+                values.pop();
+                values.pop();
+                println!("INSERT INTO {} ({}) VALUES ({});",
+                         table_name, fields, values);
             }
         }
         else {
