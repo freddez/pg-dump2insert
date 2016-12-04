@@ -1,5 +1,5 @@
 [root]
-name = "pg_dump_tool"
+name = "pg-dump2insert"
 version = "0.1.0"
 dependencies = [
  "regex 0.1.80 (registry+https://github.com/rust-lang/crates.io-index)",

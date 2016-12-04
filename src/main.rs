@@ -19,7 +19,7 @@ fn main() {
             else {
                 let mut values = String::new();
                 line.pop();
-                for s in line.split("\t") {
+                for s in line.replace("'", "''").split("\t") {
                     if s == "\\N" {
                         values += "NULL, ";
                     } else {
