@@ -1,7 +1,7 @@
 [package]
 name = "pg-dump2insert"
-version = "0.1.0"
-authors = ["Frederic de Zorzi <fredz@pimentech.fr>"]
+version = "0.2.0"
+authors = ["Frédéric De Zorzi <f@idez.net>"]
 
 [dependencies]
-regex = "0.1"
+regex = "1"

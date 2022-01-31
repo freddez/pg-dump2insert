@@ -9,7 +9,7 @@ fn main() {
     let mut line = String::new();
     let mut table_name = String::new();
     let mut fields = String::new();
-    let re = Regex::new(r"^COPY (\w+) \(([\w, ]+)\) FROM stdin;").unwrap();
+    let re = Regex::new(r"^COPY ([\w\.]+) \(([\w, ]+)\) FROM stdin;").unwrap();
     let mut insert_mode = false;
     while stdin.read_line(&mut line).unwrap() > 0 {
         if insert_mode {
@@ -38,8 +38,8 @@ fn main() {
             match re.captures(&line) {
                 None => print!("{}", line),
                 Some(caps) => {
-                    table_name = String::from(caps.at(1).unwrap());
-                    fields = String::from(caps.at(2).unwrap());
+                    table_name = String::from(caps.get(1).map_or("", |m| m.as_str()));
+                    fields = String::from(caps.get(2).map_or("", |m| m.as_str()));
                     insert_mode = true;
                 },
             };
