@@ -2,7 +2,7 @@
 import fileinput
 import re
 
-start_table_pattern = re.compile("^COPY ([\w\.]+) \(([\w, ]+)\) FROM stdin;")
+start_table_pattern = re.compile("^COPY (.+) \((.+)\) FROM stdin;")
 table_name = None
 fields = None
 insert_mode = False
